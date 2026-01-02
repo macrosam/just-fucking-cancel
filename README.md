@@ -1,8 +1,10 @@
-# Just Fucking Cancel
+# JUST FUCKING CANCEL
 
-1. Export credit card statements
-2. Add exported .csv's to your local folder
-3. Run claude, say "cancel subscriptions"
+How it works:
+
+1. `Export credit card statements`
+2. `Add exported .csv's to your local folder`
+3. `Run claude, say "cancel subscriptions"`
 
 This Claude skill analyzes your credit card transactions, asks you about each recurring charge, and helps you cancel the ones you don't need — including automating the cancellation process in your browser.
 
