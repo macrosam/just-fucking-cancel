@@ -59,15 +59,29 @@
     /* Header */
     header {
       text-align: center;
-      padding: 1.5rem 0;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 2rem;
+      padding: 1.5rem 0 1rem;
+      margin-bottom: 1.5rem;
     }
     .tagline {
       color: var(--muted);
       margin: 0.25rem 0 1rem;
       font-size: 0.95rem;
     }
+    .github-star {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: var(--text);
+      color: var(--bg);
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .github-star:hover { opacity: 0.9; }
+    .github-star svg { width: 18px; height: 18px; fill: currentColor; }
     .badges {
       display: flex;
       gap: 0.5rem;
@@ -118,6 +132,7 @@
       gap: 4px;
       flex: 1;
       position: relative;
+      cursor: pointer;
     }
     .progress-step:not(:last-child)::after {
       content: '';
@@ -127,6 +142,7 @@
       width: 100%;
       height: 2px;
       background: var(--border);
+      pointer-events: none;
     }
     .progress-step.completed:not(:last-child)::after {
       background: var(--success);
@@ -144,6 +160,10 @@
       font-weight: 600;
       position: relative;
       z-index: 1;
+    }
+    .progress-step:hover .progress-dot {
+      background: var(--accent);
+      color: white;
     }
     .progress-step.active .progress-dot {
       background: var(--accent);
@@ -165,15 +185,16 @@
     /* Steps */
     .step {
       position: relative;
-      margin: 0 0 2rem;
+      margin: 0 0 2.5rem;
       padding-left: 48px;
+      scroll-margin-top: 80px;
     }
     .step::before {
       content: '';
       position: absolute;
       left: 17px;
       top: 40px;
-      bottom: -2rem;
+      bottom: -2.5rem;
       width: 2px;
       background: var(--border);
     }
@@ -218,6 +239,7 @@
       overflow-x: auto;
       font-size: 0.85rem;
       margin: 0.5rem 0;
+      position: relative;
     }
     code {
       font-family: 'SF Mono', Monaco, Consolas, monospace;
@@ -227,9 +249,7 @@
       font-size: 0.85em;
     }
     pre code { background: none; padding: 0; }
-    .code-wrap { position: relative; }
-    .code-wrap pre { padding-right: 60px; }
-    .copy-btn {
+    pre .copy-btn {
       position: absolute;
       top: 6px;
       right: 6px;
@@ -241,8 +261,8 @@
       color: #999;
       cursor: pointer;
     }
-    .copy-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
-    .copy-btn.copied { background: var(--success); color: white; border-color: var(--success); }
+    pre .copy-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+    pre.copied .copy-btn { background: var(--success); color: white; border-color: var(--success); }
 
     /* Callouts */
     .tip {
@@ -263,17 +283,6 @@
       font-size: 0.9rem;
     }
     .warning strong { color: var(--warning); }
-    .done {
-      background: var(--success-bg);
-      border: 1px solid var(--success);
-      border-radius: 4px;
-      padding: 0.5rem 0.75rem;
-      margin: 1rem 0;
-      text-align: center;
-      font-size: 0.9rem;
-      color: var(--success);
-      font-weight: 500;
-    }
 
     /* Tabs */
     .tabs {
@@ -421,7 +430,7 @@
     /* Responsive */
     @media (max-width: 500px) {
       body { padding: 12px; }
-      .step { padding-left: 40px; }
+      .step { padding-left: 40px; scroll-margin-top: 60px; }
       .step-num { width: 30px; height: 30px; font-size: 0.9rem; }
       .step::before { left: 14px; }
       h1 { font-size: 1.5rem; }
@@ -435,23 +444,23 @@
 
 <nav class="progress">
   <div class="progress-steps">
-    <div class="progress-step active" data-step="1">
+    <div class="progress-step active" data-step="1" onclick="scrollToStep(1)">
       <div class="progress-dot">1</div>
-      <div class="progress-label">Install</div>
+      <div class="progress-label">Export</div>
     </div>
-    <div class="progress-step" data-step="2">
+    <div class="progress-step" data-step="2" onclick="scrollToStep(2)">
       <div class="progress-dot">2</div>
       <div class="progress-label">Download</div>
     </div>
-    <div class="progress-step" data-step="3">
+    <div class="progress-step" data-step="3" onclick="scrollToStep(3)">
       <div class="progress-dot">3</div>
-      <div class="progress-label">Export</div>
+      <div class="progress-label">Install</div>
     </div>
-    <div class="progress-step" data-step="4">
+    <div class="progress-step" data-step="4" onclick="scrollToStep(4)">
       <div class="progress-dot">4</div>
       <div class="progress-label">Audit</div>
     </div>
-    <div class="progress-step" data-step="5">
+    <div class="progress-step" data-step="5" onclick="scrollToStep(5)">
       <div class="progress-dot">5</div>
       <div class="progress-label">Cancel</div>
     </div>
@@ -461,119 +470,29 @@
 <header>
   <h1>Just Fucking Cancel</h1>
   <p class="tagline">Find subscriptions you forgot about. No coding required.</p>
+  <a href="https://github.com/rohunvora/just-fucking-cancel" class="github-star" target="_blank">
+    <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+    Star on GitHub
+  </a>
   <div class="badges">
+    <span class="badge">Free &amp; open source</span>
     <span class="badge">5 steps</span>
     <span class="badge">15-30 min</span>
-    <span class="badge">$20 (Claude Pro)</span>
   </div>
 </header>
 
 <div class="requirements">
   <strong>What you need</strong>
   <ul>
-    <li><strong>Claude Pro</strong> — $20/month at <a href="https://claude.ai">claude.ai</a></li>
+    <li><strong>Claude Pro subscription</strong> — sign up at <a href="https://claude.ai">claude.ai</a></li>
     <li><strong>Mac or Windows computer</strong></li>
-    <li><strong>Bank statement export</strong> — CSV from your bank (instructions in Step 3)</li>
+    <li><strong>Bank statement export</strong> — CSV from your bank (instructions below)</li>
   </ul>
 </div>
 
-<!-- STEP 1 -->
+<!-- STEP 1: Export Transactions -->
 <article class="step" id="step-1" data-step="1">
   <div class="step-num">1</div>
-  <div class="step-header">
-    <h2>Install Claude Code</h2>
-    <span class="step-time">5-10 min</span>
-  </div>
-
-  <p>Claude Code runs in your terminal. If you've never opened a terminal, that's fine—follow along.</p>
-
-  <h3>Install Node.js first</h3>
-  <ol>
-    <li>Go to <a href="https://nodejs.org">nodejs.org</a></li>
-    <li>Download the LTS version (the green button)</li>
-    <li>Run the installer, click Next through everything</li>
-  </ol>
-
-  <h3>Open your terminal</h3>
-
-  <div class="tabs">
-    <button class="tab active" onclick="showTab('mac')">Mac</button>
-    <button class="tab" onclick="showTab('win')">Windows</button>
-  </div>
-
-  <div id="mac" class="tab-content active">
-    <ol>
-      <li>Press <code>Cmd + Space</code></li>
-      <li>Type <strong>Terminal</strong> and press Enter</li>
-    </ol>
-  </div>
-
-  <div id="win" class="tab-content">
-    <ol>
-      <li>Press <code>Win + X</code></li>
-      <li>Click <strong>Windows PowerShell</strong></li>
-    </ol>
-  </div>
-
-  <h3>Install Claude Code</h3>
-
-  <p>Paste this command and press Enter:</p>
-
-  <div class="tabs">
-    <button class="tab active" onclick="showTab('mac-install')">Mac</button>
-    <button class="tab" onclick="showTab('win-install')">Windows</button>
-  </div>
-
-  <div id="mac-install" class="tab-content active">
-    <pre><code>sudo npm install -g @anthropic-ai/claude-code</code></pre>
-    <p>Enter your computer password when prompted. You won't see characters as you type—that's normal.</p>
-  </div>
-
-  <div id="win-install" class="tab-content">
-    <pre><code>npm install -g @anthropic-ai/claude-code</code></pre>
-  </div>
-
-  <div class="terminal">
-    <div class="terminal-bar">
-      <div class="terminal-btn close"></div>
-      <div class="terminal-btn min"></div>
-      <div class="terminal-btn max"></div>
-      <div class="terminal-title">Terminal</div>
-    </div>
-    <div class="terminal-body">
-      <div><span class="t-prompt">you@mac</span> <span class="t-path">~</span></div>
-      <div>$ sudo npm install -g @anthropic-ai/claude-code</div>
-      <div class="t-dim" style="margin-top: 8px">added 127 packages in 12s</div>
-    </div>
-  </div>
-
-  <div class="done">Claude Code installed</div>
-</article>
-
-<!-- STEP 2 -->
-<article class="step" id="step-2" data-step="2">
-  <div class="step-num">2</div>
-  <div class="step-header">
-    <h2>Download the Project</h2>
-    <span class="step-time">2 min</span>
-  </div>
-
-  <ol>
-    <li>Go to <a href="https://github.com/rohunvora/just-fucking-cancel">github.com/rohunvora/just-fucking-cancel</a></li>
-    <li>Click the green <strong>Code</strong> button</li>
-    <li>Click <strong>Download ZIP</strong></li>
-    <li>Unzip the file (double-click on Mac, right-click → Extract on Windows)</li>
-    <li>Move the folder to your Desktop</li>
-  </ol>
-
-  <div class="tip"><strong>Folder name:</strong> <code>just-fucking-cancel-main</code></div>
-
-  <div class="done">Project downloaded</div>
-</article>
-
-<!-- STEP 3 -->
-<article class="step" id="step-3" data-step="3">
-  <div class="step-num">3</div>
   <div class="step-header">
     <h2>Export Your Transactions</h2>
     <span class="step-time">3-5 min</span>
@@ -615,15 +534,96 @@
     </div>
   </details>
 
-  <div class="warning">
-    <strong>Move your CSV into the project folder</strong><br>
-    Drag it into the <code>just-fucking-cancel-main</code> folder on your Desktop.
-  </div>
-
-  <div class="done">Transactions ready</div>
+  <div class="tip"><strong>Save it somewhere easy to find</strong> — you'll move it into the project folder in step 2.</div>
 </article>
 
-<!-- STEP 4 -->
+<!-- STEP 2: Download Project -->
+<article class="step" id="step-2" data-step="2">
+  <div class="step-num">2</div>
+  <div class="step-header">
+    <h2>Download the Project</h2>
+    <span class="step-time">2 min</span>
+  </div>
+
+  <ol>
+    <li>Go to <a href="https://github.com/rohunvora/just-fucking-cancel">github.com/rohunvora/just-fucking-cancel</a></li>
+    <li>Click the green <strong>Code</strong> button</li>
+    <li>Click <strong>Download ZIP</strong></li>
+    <li>Unzip the file (double-click on Mac, right-click → Extract on Windows)</li>
+    <li>Move the folder to your Desktop</li>
+  </ol>
+
+  <div class="warning">
+    <strong>Move your CSV into this folder</strong><br>
+    Drag the CSV from step 1 into the <code>just-fucking-cancel-main</code> folder.
+  </div>
+</article>
+
+<!-- STEP 3: Install Claude Code -->
+<article class="step" id="step-3" data-step="3">
+  <div class="step-num">3</div>
+  <div class="step-header">
+    <h2>Install Claude Code</h2>
+    <span class="step-time">5 min</span>
+  </div>
+
+  <p>Claude Code is a free command-line tool from Anthropic.</p>
+
+  <h3>Open your terminal</h3>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('mac')">Mac</button>
+    <button class="tab" onclick="showTab('win')">Windows</button>
+  </div>
+
+  <div id="mac" class="tab-content active">
+    <ol>
+      <li>Press <code>Cmd + Space</code></li>
+      <li>Type <strong>Terminal</strong> and press Enter</li>
+    </ol>
+  </div>
+
+  <div id="win" class="tab-content">
+    <ol>
+      <li>Press <code>Win + X</code></li>
+      <li>Click <strong>Windows PowerShell</strong></li>
+    </ol>
+  </div>
+
+  <h3>Run the installer</h3>
+
+  <p>Paste this command and press Enter:</p>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('mac-install')">Mac</button>
+    <button class="tab" onclick="showTab('win-install')">Windows</button>
+  </div>
+
+  <div id="mac-install" class="tab-content active">
+    <pre><code>curl -fsSL https://claude.ai/install.sh | sh</code></pre>
+  </div>
+
+  <div id="win-install" class="tab-content">
+    <pre><code>irm https://claude.ai/install.ps1 | iex</code></pre>
+  </div>
+
+  <div class="terminal">
+    <div class="terminal-bar">
+      <div class="terminal-btn close"></div>
+      <div class="terminal-btn min"></div>
+      <div class="terminal-btn max"></div>
+      <div class="terminal-title">Terminal</div>
+    </div>
+    <div class="terminal-body">
+      <div><span class="t-prompt">you@mac</span> <span class="t-path">~</span></div>
+      <div>$ curl -fsSL https://claude.ai/install.sh | sh</div>
+      <div class="t-dim" style="margin-top: 8px">Installing Claude Code...</div>
+      <div class="t-green" style="margin-top: 4px">Done! Run 'claude' to get started.</div>
+    </div>
+  </div>
+</article>
+
+<!-- STEP 4: Run Audit -->
 <article class="step" id="step-4" data-step="4">
   <div class="step-num">4</div>
   <div class="step-header">
@@ -697,11 +697,9 @@
     <li>Or press <code>Ctrl + C</code></li>
     <li>Or close the window</li>
   </ul>
-
-  <div class="done">Audit complete</div>
 </article>
 
-<!-- STEP 5 -->
+<!-- STEP 5: Cancel -->
 <article class="step" id="step-5" data-step="5">
   <div class="step-num">5</div>
   <div class="step-header">
@@ -779,8 +777,6 @@
   <h3>Login prompts</h3>
 
   <p>When sites ask you to log in, do it yourself—Claude doesn't know your passwords. Just say "continue" or "I'm logged in" when ready.</p>
-
-  <div class="done">Subscriptions canceled</div>
 </article>
 
 <!-- TROUBLESHOOTING -->
@@ -792,17 +788,8 @@
     <div>
       <ul>
         <li>Close and reopen Terminal/PowerShell</li>
-        <li>Check Node.js: <code>node --version</code></li>
-        <li>Reinstall: <code>sudo npm install -g @anthropic-ai/claude-code</code></li>
+        <li>Try running the installer again</li>
       </ul>
-    </div>
-  </details>
-
-  <details>
-    <summary>npm permission error (Mac)</summary>
-    <div>
-      <p>Make sure you're using <code>sudo</code>:</p>
-      <pre><code>sudo npm install -g @anthropic-ai/claude-code</code></pre>
     </div>
   </details>
 
@@ -838,22 +825,14 @@
 
 <!-- PRIVACY -->
 <section>
-  <h2>Privacy & Cost</h2>
+  <h2>Privacy</h2>
 
-  <h3>Your data stays local</h3>
   <ul>
     <li>CSV files never leave your machine</li>
     <li>The audit report is a local HTML file</li>
-    <li>Nothing is uploaded or shared</li>
+    <li>Nothing is uploaded or shared with anyone</li>
   </ul>
   <p>Only your conversation with Claude goes to Anthropic—not your raw transaction data.</p>
-
-  <h3>Cost</h3>
-  <ul>
-    <li><strong>Claude Pro:</strong> $20/month flat fee</li>
-    <li><strong>This tool:</strong> Free</li>
-  </ul>
-  <p>One month is usually enough. Cancel Claude Pro afterward if you want.</p>
 </section>
 
 <footer>
@@ -862,8 +841,16 @@
 </footer>
 
 <script>
+// Scroll to step when clicking progress bar
+function scrollToStep(num) {
+  const step = document.getElementById('step-' + num);
+  if (step) {
+    step.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+// Tab switching
 function showTab(id) {
-  // Handle paired tabs (mac/win, mac-install/win-install, mac2/win2)
   const pairs = [
     ['mac', 'win'],
     ['mac-install', 'win-install'],
@@ -878,7 +865,6 @@ function showTab(id) {
           el.classList.toggle('active', tabId === id);
         }
       });
-      // Update tab buttons in the same container
       const activeTab = document.getElementById(id);
       if (activeTab) {
         const container = activeTab.previousElementSibling;
@@ -893,33 +879,32 @@ function showTab(id) {
   }
 }
 
-// Copy buttons
+// Copy buttons for standalone pre blocks only (not inside .terminal)
 document.querySelectorAll('pre code').forEach(block => {
   const pre = block.parentNode;
-  if (pre.parentNode.classList.contains('code-wrap')) return;
+  // Skip if inside terminal mock
+  if (pre.closest('.terminal')) return;
 
-  const wrapper = document.createElement('div');
-  wrapper.className = 'code-wrap';
-  pre.parentNode.insertBefore(wrapper, pre);
-  wrapper.appendChild(pre);
+  pre.style.paddingRight = '60px';
 
   const btn = document.createElement('button');
   btn.className = 'copy-btn';
   btn.textContent = 'Copy';
-  btn.onclick = () => {
+  btn.onclick = (e) => {
+    e.preventDefault();
     navigator.clipboard.writeText(block.textContent.trim()).then(() => {
       btn.textContent = 'Copied!';
-      btn.classList.add('copied');
+      pre.classList.add('copied');
       setTimeout(() => {
         btn.textContent = 'Copy';
-        btn.classList.remove('copied');
+        pre.classList.remove('copied');
       }, 1500);
     });
   };
-  wrapper.appendChild(btn);
+  pre.appendChild(btn);
 });
 
-// Progress stepper
+// Progress stepper - highlight current step based on scroll
 const steps = document.querySelectorAll('.step');
 const progressSteps = document.querySelectorAll('.progress-step');
 
@@ -934,7 +919,7 @@ const observer = new IntersectionObserver(entries => {
       });
     }
   });
-}, { threshold: 0.3, rootMargin: '-100px 0px -50% 0px' });
+}, { threshold: 0.3, rootMargin: '-80px 0px -50% 0px' });
 
 steps.forEach(step => observer.observe(step));
 </script>
