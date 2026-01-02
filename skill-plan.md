@@ -1,4 +1,4 @@
-# Subscription Audit Skill - Plan
+# just-fucking-cancel - Skill Plan
 
 ## Step 1: Concrete Examples
 
@@ -28,7 +28,7 @@
 ## Step 3: Skill Structure
 
 ```
-subscription-audit/
+just-fucking-cancel/
 ├── SKILL.md
 ├── assets/
 │   └── template.html          # Clean HTML template
@@ -44,13 +44,13 @@ subscription-audit/
 
 1. **Input flexibility**: Support multiple bank formats (Apple Card, Chase, generic CSV)
 2. **Privacy-first**: All data stays local, never uploaded
-3. **Interactive output**: HTML with checkboxes, localStorage persistence
+3. **Interactive output**: HTML with checkboxes, floating copy button, localStorage persistence
 4. **Browser automation**: Leverage Claude Code's MCP tools for cancellations
 
 ## Status
 
 - [x] Plan created
-- [ ] HTML template finalized
+- [x] HTML template finalized (brutalist design)
 - [ ] Skill initialized
 - [ ] Scripts implemented
 - [ ] References written

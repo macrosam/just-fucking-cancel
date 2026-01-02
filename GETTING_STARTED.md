@@ -29,7 +29,7 @@ Get a CSV export from your bank or card:
 
 Save the file(s) somewhere you can find them.
 
-## Step 3: Run the Audit
+## Step 3: Run just-fucking-cancel
 
 1. Open your terminal:
    - **Mac**: Press `Cmd + Space`, type "Terminal", hit Enter
@@ -38,8 +38,8 @@ Save the file(s) somewhere you can find them.
 2. Navigate to a folder for this project:
    ```
    cd ~/Documents
-   mkdir subscription-audit
-   cd subscription-audit
+   mkdir just-fucking-cancel
+   cd just-fucking-cancel
    ```
 
 3. Start Claude Code:

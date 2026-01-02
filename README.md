@@ -1,8 +1,8 @@
-# Subscription Audit
+# just-fucking-cancel
 
 Analyze your bank transactions to find recurring charges, categorize them, and cancel what you don't need.
 
-![Subscription Audit Output](cancel-preview.png)
+![just-fucking-cancel output](cancel-preview.png)
 
 ## What it does
 
@@ -41,7 +41,7 @@ Claude will ask clarifying questions about your usage patterns, then generate an
 
 ## Output Features
 
-- **Share card** - Screenshot-ready savings summary (no service names)
+- **Copy to clipboard** - Select items, click floating button to copy cancel list
 - **Privacy toggle** - Blur service names with one click
 - **Collapsible sections** - Click headers to collapse/expand
 - **Categorized view** - Cancelled, Needs Decision, Keeping
