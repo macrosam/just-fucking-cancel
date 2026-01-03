@@ -4,7 +4,28 @@
       "source": "/",
       "destination": "/getting-started.html",
       "permanent": false
+    },
+    {
+      "source": "/og-image.png",
+      "destination": "/images/og-image.png",
+      "permanent": true
+    },
+    {
+      "source": "/cancel-preview.png",
+      "destination": "/images/cancel-preview.png",
+      "permanent": true
+    },
+    {
+      "source": "/terminal.png",
+      "destination": "/images/terminal.png",
+      "permanent": true
+    },
+    {
+      "source": "/powershell.png",
+      "destination": "/images/powershell.png",
+      "permanent": true
     }
   ]
 }
+
 

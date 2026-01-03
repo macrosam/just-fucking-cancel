@@ -8,7 +8,7 @@ How it works:
 
 This Claude skill analyzes your credit card transactions, asks you about each recurring charge, and helps you cancel the ones you don't need — including automating the cancellation process in your browser.
 
-![just-fucking-cancel output](cancel-preview.png)
+![just-fucking-cancel output](images/cancel-preview.png)
 
 ## What is this?
 
