@@ -12,7 +12,8 @@ on:
         required: true
         default: "main"
 
-permissions: write-all
+permissions:
+  contents: read
 
 jobs:
   run:
