@@ -1,0 +1,29 @@
+name: remote-ops
+
+on:
+  workflow_dispatch:
+    inputs:
+      command:
+        description: "Command to run"
+        required: true
+        default: "echo hello"
+      ref:
+        description: "Git ref to checkout"
+        required: true
+        default: "main"
+
+permissions: write-all
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Execute
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash -lc "${{ inputs.command }}"
