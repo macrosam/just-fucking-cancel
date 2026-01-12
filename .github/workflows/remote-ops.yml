@@ -4,27 +4,36 @@ on:
   workflow_dispatch:
     inputs:
       command:
-        description: "Command to run"
+        description: "Bash command(s) to run"
         required: true
-        default: "echo hello"
+        type: string
+      workdir:
+        description: "Working directory (optional)"
+        required: false
+        default: "."
+        type: string
       ref:
-        description: "Git ref to checkout"
-        required: true
-        default: "main"
+        description: "Git ref to checkout (optional)"
+        required: false
+        default: ""
+        type: string
 
-permissions:
-  contents: read
+permissions: write-all
 
 jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.ref }}
 
-      - name: Execute
+      - name: Run
         shell: bash
+        working-directory: ${{ inputs.workdir }}
         run: |
           set -euo pipefail
-          bash -lc "${{ inputs.command }}"
+          ${{
+            inputs.command
+          }}
